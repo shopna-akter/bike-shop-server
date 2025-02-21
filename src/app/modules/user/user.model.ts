@@ -4,7 +4,7 @@ import { hashPassword } from '../../utilities/authUtilities';
 import { ErrorWithStatus } from '../../classes/ErrorWithStatus';
 import { STATUS_CODES } from '../../constants';
 
-const userSchema =  new Schema<IUserDoc>({
+const userSchema = new Schema<IUserDoc>({
 	name: {
 		type: String,
 		required: true,
@@ -31,10 +31,14 @@ const userSchema =  new Schema<IUserDoc>({
 		type: Boolean,
 		default: true,
 	},
+	image: { type: String, 
+	trim: true, 
+	default: '' 
+	}
 }, {
 	timestamps: true, // Adds createdAt and updatedAt fields
 });
-  
+
 userSchema.pre('save', async function (next) {
 	this.password = await hashPassword(this.password);
 
@@ -62,14 +66,14 @@ userSchema.statics.validateUser = async function (email?: string) {
 		);
 	}
 
-	if (user.isActive) {
+	if (!user.isActive) {
 		throw new ErrorWithStatus(
 			'Authentication Error',
 			`User with email ${email} is Blocked!`,
 			STATUS_CODES.FORBIDDEN,
 			'user',
 		);
-	}
+	}	
 
 	return user;
 };

@@ -18,7 +18,11 @@
 	],
 	"license": "ISC",
 	"dependencies": {
+		"@ant-design/icons": "^5.6.0",
+		"@reduxjs/toolkit": "^2.5.1",
 		"@types/mongoose": "^5.11.97",
+		"antd": "^5.23.3",
+		"axios": "^1.7.9",
 		"bcrypt": "^5.1.1",
 		"cookie-parser": "^1.4.7",
 		"cors": "^2.8.5",
@@ -28,6 +32,8 @@
 		"mongoose": "^8.9.5",
 		"multer": "1.4.5-lts.1",
 		"nhb-toolbox": "^1.1.6",
+		"react-redux": "^9.2.0",
+		"redux": "^5.0.1",
 		"zod": "^3.24.1"
 	},
 	"devDependencies": {

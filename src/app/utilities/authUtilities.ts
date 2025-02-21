@@ -20,12 +20,6 @@ export const hashPassword = async (password: string): Promise<string> => {
 	}
 };
 
-/**
- * * Utility function to compare incoming password with hashed password.
- * @param rawPassword Incoming password from client.
- * @param hashedPassword Password from DB to be compared with.
- * @returns Boolean
- */
 export const comparePassword = async (
 	rawPassword: string,
 	hashedPassword: string,
@@ -42,13 +36,6 @@ export const comparePassword = async (
 	}
 };
 
-/**
- * * Utility function to generate `jsonwebtoken`.
- * @param payload Payload to be encoded in token.
- * @param secret Secret key for generating token.
- * @param expiresIn Expiry time.
- * @returns
- */
 export const generateToken = (
 	payload: Pick<IUser, 'email' | 'role'>,
 	secret: string,
@@ -66,12 +53,6 @@ export const generateToken = (
 	}
 };
 
-/**
- * * Utility function to check if token is valid.
- * @param secret Secret key from `env` used for token generation.
- * @param token Token from client.
- * @returns Decoded token payload.
- */
 export const verifyToken = (secret: string, token?: string): DecodedUser => {
 	if (!token) {
 		throw new ErrorWithStatus(
