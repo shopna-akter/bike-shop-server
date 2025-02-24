@@ -1,1 +1,1 @@
-export const PRODUCT_CATEGORIES = ['Sport', 'Commuter', 'Touring', 'Electric'] as const;
+export const PRODUCT_CATEGORIES = ["Mountain" , "Road" , "Hybrid" , "Electric"] as const;
