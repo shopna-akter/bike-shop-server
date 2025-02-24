@@ -7,7 +7,7 @@ import {
 	generateToken,
 	verifyToken,
 } from '../../utilities/authUtilities';
-import type { ILoginCredentials, ITokens, IUser } from '../user/user.types';
+import type { ILoginCredentials, IUserWithTokens, IUser } from '../user/user.types';
 
 const registerUserInDB = async (payload: IUser) => {
 	const newUser = await User.create(payload);
@@ -18,41 +18,48 @@ const registerUserInDB = async (payload: IUser) => {
 
 	return user;
 };
-const loginUser = async (payload: ILoginCredentials): Promise<ITokens> => {
+const loginUser = async (payload: ILoginCredentials): Promise<IUserWithTokens> => {
 	const user = await User.validateUser(payload.email);
-	const passwordMatched = await comparePassword(
-		payload?.password,
-		user?.password,
-	);
-
+	const passwordMatched = await comparePassword(payload?.password, user?.password);
+  
 	if (!passwordMatched) {
-		throw new ErrorWithStatus(
-			'Authorization Error',
-			`Invalid credentials!`,
-			STATUS_CODES.UNAUTHORIZED,
-			'auth',
-		);
+	  throw new ErrorWithStatus(
+		'Authorization Error',
+		`Invalid credentials!`,
+		STATUS_CODES.UNAUTHORIZED,
+		'auth',
+	  );
 	}
-
+  
 	const jwtPayload = {
+	  email: user.email,
+	  role: user.role,
+	};
+  
+	const accessToken = generateToken(
+	  jwtPayload,
+	  configs.accessSecret,
+	  configs.accessExpireTime,
+	);
+  
+	const refreshToken = generateToken(
+	  jwtPayload,
+	  configs.refreshSecret,
+	  configs.refreshExpireTime,
+	);
+	return {
+	  user: {
+		_id: user._id.toString(),
+		name: user.name,
 		email: user.email,
 		role: user.role,
+	  },
+	  accessToken,
+	  refreshToken,
 	};
-
-	const accessToken = generateToken(
-		jwtPayload,
-		configs.accessSecret,
-		configs.accessExpireTime,
-	);
-
-	const refreshToken = generateToken(
-		jwtPayload,
-		configs.refreshSecret,
-		configs.refreshExpireTime,
-	);
-
-	return { accessToken, refreshToken };
-};
+  };
+  
+  
 
 const refreshToken = async (token: string): Promise<{ token: string }> => {
 	const decodedToken = verifyToken(configs.refreshSecret, token);

@@ -25,23 +25,30 @@ const registerUser = catchAsync(async (req, res) => {
 });
 
 const loginUser = catchAsync(async (req, res) => {
-	const tokens = await authServices.loginUser(req.body);
-
-	const { refreshToken, accessToken } = tokens;
-
+	const { refreshToken, accessToken, user } = await authServices.loginUser(req.body);
+  
 	res.cookie('refreshToken', refreshToken, {
-		secure: configs.NODE_ENV === 'production',
-		httpOnly: true,
+	  secure: configs.NODE_ENV === 'production',
+	  httpOnly: true,
 	});
-
+  
 	sendResponse(
-		res,
-		'User',
-		'OK',
-		{ token: accessToken },
-		'Login successful!',
+	  res,
+	  'User',
+	  'OK',
+	  {
+		token: accessToken,
+		user: {
+		  _id: user._id,
+		  name: user.name,
+		  email: user.email,
+		  role: user.role, // ✅ Add user role
+		},
+	  },
+	  'Login successful!',
 	);
-});
+  });
+  
 
 const refreshToken = catchAsync(async (req, res) => {
 	const { refreshToken } = req.cookies;

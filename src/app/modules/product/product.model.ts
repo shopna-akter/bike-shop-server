@@ -49,6 +49,10 @@ const productSchema = new Schema<TProductDocument>({
 		type: Boolean,
 		default: false,
 	},
+	image: {
+		type: String,
+		required: [true, 'Product image is required!'],
+	  },
 }, {
 	timestamps: true,
 });

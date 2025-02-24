@@ -1,7 +1,6 @@
 import cors from 'cors';
 import express from 'express';
 import router from './app/routes';
-import configs from './app/configs';
 import cookieParser from 'cookie-parser';
 import sendResponse from './app/utilities/sendResponse';
 import type { Application, Request, Response } from 'express';
@@ -13,13 +12,13 @@ const app: Application = express();
 
 app.use(
 	cors({
-		origin:
-			configs.NODE_ENV === 'development' ?
-				'http://localhost:5000'
-			:	'https://bicycle-boulevard-nhb.vercel.app',
-		credentials: true,
-	}),
-);
+	  origin: [
+		"http://localhost:5000",  // API Server
+		"http://localhost:5173",  // Vite Frontend
+	  ],
+	  credentials: true,
+	})
+  );
 
 app.use(cookieParser());
 app.use(express.json());

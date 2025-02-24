@@ -11,6 +11,17 @@ export interface IUser {
 	role: TUserRole;
 	isActive?: boolean;
 }
+export interface IUserWithTokens {
+	user: {
+	  _id: string;
+	  name: string;
+	  email: string;
+	  role: string;
+	  image?: string;
+	};
+	accessToken: string;
+	refreshToken: string;
+  }
 
 export interface ILoginCredentials {
 	email: string;

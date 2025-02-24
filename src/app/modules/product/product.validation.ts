@@ -27,6 +27,7 @@ const creationSchema = z.object({
 	inStock: z.boolean({ message: 'Stock availability must be specified' }),
 
 	isDeleted: z.boolean().optional().default(false),
+	image: z.string({ message: 'Product image URL is required' }).trim().min(1, { message: 'Product image must not be empty' })
 });
 
 const updateSchema = creationSchema.partial(); 
