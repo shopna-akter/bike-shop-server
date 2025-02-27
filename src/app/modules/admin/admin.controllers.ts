@@ -9,5 +9,10 @@ const deactivateUser = catchAsync(async (req, res) => {
 
 	sendResponse(res, 'User', 'PATCH', null, message);
 });
+const getAllUsers = catchAsync(async (req, res) => {
+	console.info(req);
+	const users = await adminServices.getAllUsersFromDB();
+	sendResponse(res, 'User', 'GET', users);
+  });
 
-export const adminControllers = { deactivateUser };
+export const adminControllers = { deactivateUser , getAllUsers};

@@ -33,20 +33,22 @@ const loginUser = catchAsync(async (req, res) => {
 	});
   
 	sendResponse(
-	  res,
-	  'User',
-	  'OK',
-	  {
-		token: accessToken,
-		user: {
-		  _id: user._id,
-		  name: user.name,
-		  email: user.email,
-		  role: user.role, // ✅ Add user role
+		res,
+		'User',
+		'OK',
+		{
+		  accessToken,
+		  refreshToken,
+		  user: {
+			_id: user._id,
+			name: user.name,
+			email: user.email,
+			role: user.role, 
+		  },
 		},
-	  },
-	  'Login successful!',
-	);
+		'Login successful!'
+	  );
+	  
   });
   
 

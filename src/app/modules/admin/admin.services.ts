@@ -27,7 +27,7 @@ const deactivateUserInDB = async (id: string, admin?: DecodedUser) => {
 		);
 	}
 
-	if (user.isActive) {
+	if (!user.isActive) {
 		throw new ErrorWithStatus(
 			'Already Blocked',
 			`${user.name} is already blocked!`,
@@ -49,5 +49,10 @@ const deactivateUserInDB = async (id: string, admin?: DecodedUser) => {
 
 	return 'User is Deactivated successfully!';
 };
+const getAllUsersFromDB = async () => {
+	const users = await User.find();
+	return users;
+};
 
-export const adminServices = { deactivateUserInDB };
+export const adminServices = { deactivateUserInDB, getAllUsersFromDB }
+

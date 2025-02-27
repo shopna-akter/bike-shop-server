@@ -10,5 +10,5 @@ router.patch(
 	authorizeUser(USER_ROLES.ADMIN),
 	adminControllers.deactivateUser,
 );
-
+router.get('/users', authorizeUser(USER_ROLES.ADMIN), adminControllers.getAllUsers);
 export const adminRoutes = router;
